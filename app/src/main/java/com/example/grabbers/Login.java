@@ -1,5 +1,6 @@
 package com.example.grabbers;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
@@ -36,6 +43,18 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this,Signup.class);
                 startActivity(intent);
+            }
+        });
+
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!validateUsername() || !validatePassword()) {
+                    return;
+                }else {
+                    isUser();
+                }
             }
         });
     }
@@ -68,13 +87,53 @@ public class Login extends AppCompatActivity {
 
     }
 
-    public void loginUser(View view) {
+    private void isUser() {
+        String username1 = username.getEditText().getText().toString().trim();
+        String password1 = password.getEditText().getText().toString().trim();
 
-        if (!validateUsername() || !validatePassword()) {
-            return;
-        }
-        String username1 = username.getEditText().getText().toString();
-        String password1 = password.getEditText().getText().toString();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+
+        Query chekUser = reference.orderByChild("username").equalTo(username1);
+        chekUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()) {
+
+                    username.setError(null);
+                    username.setErrorEnabled(false);
+                     String passwordwordFromdb = dataSnapshot.child(username1).child("password").getValue(String.class);
+
+                     if(passwordwordFromdb.equals(password1)) {
+                         String usernameFromDb = dataSnapshot.child(username1).child("username").getValue(String.class);
+                         String emailFromDb = dataSnapshot.child(username1).child("email").getValue(String.class);
+                         String passwordFromDb = dataSnapshot.child(username1).child("password").getValue(String.class);
+                         String phoneFromDb = dataSnapshot.child(username1).child("phonenumber").getValue(String.class);
+
+                         Intent intent = new Intent(getApplicationContext(),UserProfile.class);
+
+                         intent.putExtra("username", usernameFromDb);
+                         intent.putExtra("email", emailFromDb);
+                         intent.putExtra("phonenumber", phoneFromDb);
+                         intent.putExtra("password", passwordFromDb);
+
+                         startActivity(intent);
+                     }else {
+                         password.setError("Incorrect passsword");
+                         password.requestFocus();
+                     }
+                }else {
+                    username.setError("Such username doesn't exist");
+                    username.requestFocus();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
