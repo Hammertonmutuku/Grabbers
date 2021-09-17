@@ -7,12 +7,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup extends AppCompatActivity {
 
+    FirebaseDatabase rootnode;
+    DatabaseReference reference;
     //variables
     TextInputLayout usernameS, emailS, phoneS, passwordS, confirmsS;
     Button signup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +31,45 @@ public class Signup extends AppCompatActivity {
         confirmsS = findViewById(R.id.confrim_passwordA);
         signup = findViewById(R.id.signupA);
 
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateName() | !validateEmail() | !validatePhone() | !validatePassword() | !validateConfrimPassword()) {
+                    return;
+                }else {
+                    rootnode = FirebaseDatabase.getInstance();
+                    reference = rootnode.getReference("Users");
+
+                    //Get all the values
+                    String username =  usernameS.getEditText().getText().toString();
+                    String email = emailS.getEditText().getText().toString();
+                    String phone = phoneS.getEditText().getText().toString();
+                    String password =  passwordS.getEditText().getText().toString();
+
+                    Users user = new Users(username, email, phone,password, "rider");
+                    reference.child(phone).setValue(user);
+                }
+
+//                if (!validateName() |  !validatePhone() | !validatePassword() | !validateConfrimPassword()) {
+////            firebaseDatabase.getReference().child("Users").child(username,email,password);
+//                    rootnode = FirebaseDatabase.getInstance();
+//                    reference = rootnode.getReference("Users");
+//
+//                    //Get all the values
+//                    String username =  usernameS.getEditText().getText().toString();
+//                    String email = emailS.getEditText().getText().toString();
+//                    String phone = phoneS.getEditText().getText().toString();
+//                    String password =  passwordS.getEditText().getText().toString();
+//                    String confirm = confirmsS.getEditText().getText().toString();
+//
+//                    Users user = new Users(username, email, phone,password);
+//                    reference.setValue("first class");
+//
+//                    return;
+//                }
+            }
+        });
+
     }
 
     private Boolean validateName() {
@@ -36,7 +80,7 @@ public class Signup extends AppCompatActivity {
             usernameS.setError("Field cannot be empty");
             return  false;
         }
-        else if(val.length()>=15) {
+        else if(val.length()>=16) {
             usernameS.setError(("username is too long"));
             return false;
         }
@@ -52,7 +96,7 @@ public class Signup extends AppCompatActivity {
 
     private Boolean validateEmail() {
         String val =  emailS.getEditText().getText().toString();
-        String emailPattern = "[a-zA-X0-9._-]+@[A-Z]+\\.+[A-Z]+";
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
 
         if(val.isEmpty()) {
@@ -95,12 +139,12 @@ public class Signup extends AppCompatActivity {
             passwordS.setError("Field cannot be empty");
             return  false;
         }else if(!val.matches(passwordval)) {
-            passwordS.setError("Paasword is weak");
+            passwordS.setError("Password is weak");
             return  false;
         }
         else{
             passwordS.setError(null);
-            confirmsS.setErrorEnabled(true);
+            confirmsS.setErrorEnabled(false);
             return true;
         }
     }
@@ -117,21 +161,32 @@ public class Signup extends AppCompatActivity {
             return  false;
         }else {
             confirmsS.setError(null);
-            confirmsS.setErrorEnabled(true);
+            confirmsS.setErrorEnabled(false);
             return true;
         }
     }
 
     public void registerUser (View view) {
 
+
         if (!validateName() | !validateEmail() | !validatePhone() | !validatePassword() | !validateConfrimPassword()) {
+//            firebaseDatabase.getReference().child("Users").child(username,email,password);
+            rootnode = FirebaseDatabase.getInstance();
+            reference = rootnode.getReference("Users");
+
+            //Get all the values
+            String username =  usernameS.getEditText().getText().toString();
+            String email = emailS.getEditText().getText().toString();
+            String phone = phoneS.getEditText().getText().toString();
+            String password =  passwordS.getEditText().getText().toString();
+            String confirm = confirmsS.getEditText().getText().toString();
+
+//            Users user = new Users(username, email, phone,password);
+//            reference.setValue(user);
+
             return;
         }
-        String username2 =  usernameS.getEditText().getText().toString();
-        String password2 =  passwordS.getEditText().getText().toString();
-        String email2 = emailS.getEditText().getText().toString();
-        String phone2 = phoneS.getEditText().getText().toString();
-        String confirm2 = confirmsS.getEditText().getText().toString();
+
 
     }
 }
