@@ -21,7 +21,7 @@ public class Signup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signupRider);
+        setContentView(R.layout.activity_signup);
 
         //Hooks
         usernameS =findViewById(R.id.usernameA);

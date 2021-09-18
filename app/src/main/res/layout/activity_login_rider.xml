@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginRider">
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:fillViewport="true"
+    tools:context=".LoginCustomer">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:id="@+id/progessbar1"
+            android:visibility="gone"/>
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/rider2"
+            android:src="@drawable/rider"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/welcome2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-15dp"
+            android:fontFamily="@font/arsenal"
+            android:text="Grabbers"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signin"
+            android:text="Sign in to continue"
+            android:fontFamily="@font/arsenal"
+            android:layout_marginBottom="15dp"
+            android:textSize="18sp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:textColorHint="#2b2d2f"
+            android:theme="@style/customEdit"
+            app:startIconDrawable="@drawable/ic_action_person"
+            android:layout_marginBottom="15dp"
+            android:hint="Username">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="15dp"
+            android:textColorHint="#2b2d2f"
+            android:id="@+id/password"
+            app:startIconDrawable="@drawable/ic_action_lock"
+            app:passwordToggleEnabled="true"
+            android:hint="Password">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/purple_700"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/purple_500"
+            android:fontFamily="@font/arsenal"
+            android:padding="13dp"
+            android:id="@+id/signin2"
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:cornerRadius="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgot"
+            android:text="Forgot Password?"
+            android:fontFamily="@font/arsenal"
+            android:layout_marginBottom="50dp"
+            android:textSize="17sp"/>
+
+
+    </LinearLayout>
+
+</ScrollView>
